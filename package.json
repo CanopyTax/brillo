@@ -2,5 +2,31 @@
   "name": "brillo",
   "version": "0.0.1",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "github:geoctrl/brillo",
+  "scripts": {
+    "start": "concurrently \"yarn webpack\" \"yarn electron\"",
+    "electron": "electron ./dev/main.js",
+    "webpack": "webpack --watch"
+  },
+  "dependencies": {
+    "lipid": "^1.0.2",
+    "rxjs": "^6.5.4",
+    "uuid": "^3.3.3"
+  },
+  "peerDependencies": {
+    "electron": ">=6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "concurrently": "^5.0.2",
+    "electron": "^7.1.9",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
 }
