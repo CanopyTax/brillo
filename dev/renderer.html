@@ -9,9 +9,13 @@ Renderer!
 
 <script>
   const { BrilloRenderer } = require('../build/renderer.js');
-  const brilloRenderer = new BrilloRenderer();
+  const brilloRenderer = new BrilloRenderer({
+    rendererAction: async () => {
+      return 10 + 10;
+    }
+  });
   brilloRenderer.talk('mainAction').subscribe((answer) => {
-    console.log('answer:', answer);
+    console.log('renderer answer:', answer);
   });
 </script>
 </body>

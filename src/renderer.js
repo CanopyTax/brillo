@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
-import { BrowserWindow, ipcRenderer } from 'electron';
-import { mainToRenderer, mainToRendererResponse, rendererToMain } from './shared';
+import { ipcRenderer } from 'electron';
+import { mainToRenderer, mainToRendererResponse, rendererToMain, rendererToMainResponse } from './shared';
 import uuid from 'uuid/v4';
 
 export class BrilloRenderer {
@@ -10,7 +10,9 @@ export class BrilloRenderer {
 
     ipcRenderer.on(mainToRenderer, (e, id, action, payload) => {
       if (this.__actions[action]) {
-        this.__actions[action](payload).then(() => {});
+        this.__actions[action](payload).then((res) => {
+          ipcRenderer.send(rendererToMainResponse, id, res);
+        });
       }
     });
 
