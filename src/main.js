@@ -1,8 +1,12 @@
-import { ipcMain, BrowserWindow } from 'electron';
-import { Subject } from 'rxjs';
-import uuid from 'uuid/v4';
-
-import { rendererToMain, mainToRenderer, mainToRendererResponse, rendererToMainResponse } from './shared';
+const { ipcMain, BrowserWindow } = require('electron');
+const { Subject } = require('rxjs');
+const uuid = require('uuid/v4');
+const {
+  rendererToMain,
+  mainToRenderer,
+  mainToRendererResponse,
+  rendererToMainResponse
+} = require('./shared');
 
 export class BrilloMain {
   constructor(actionMap) {

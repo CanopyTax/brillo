@@ -6,6 +6,9 @@
   "repository": "github:geoctrl/brillo",
   "scripts": {
     "start": "concurrently \"yarn webpack\" \"yarn electron\"",
+    "build": "babel ",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "electron": "electron ./dev/main.js",
     "webpack": "webpack --watch"
   },
@@ -18,7 +21,7 @@
     "electron": ">=6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.3",
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
@@ -26,6 +29,7 @@
     "babel-loader": "^8.0.6",
     "concurrently": "^5.0.2",
     "electron": "^7.1.9",
+    "jest": "^25.1.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }

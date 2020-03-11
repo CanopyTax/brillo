@@ -1,7 +1,13 @@
-import { Subject } from 'rxjs';
-import { ipcRenderer } from 'electron';
-import { mainToRenderer, mainToRendererResponse, rendererToMain, rendererToMainResponse } from './shared';
-import uuid from 'uuid/v4';
+const { Subject } = require('rxjs');
+const { ipcRenderer } = require('electron');
+const uuid = require('uuid/v4');
+
+const {
+  mainToRenderer,
+  mainToRendererResponse,
+  rendererToMain,
+  rendererToMainResponse
+} = require('./shared');
 
 export class BrilloRenderer {
   constructor(actionMap) {
