@@ -5,12 +5,13 @@ const {
   rendererToMain,
   mainToRenderer,
   mainToRendererResponse,
-  rendererToMainResponse
+  rendererToMainResponse,
+  isObject
 } = require('./shared');
 
 export class BrilloMain {
-  constructor(actionMap) {
-    this.__actions = actionMap;
+  constructor() {
+    this.__actions = {};
     this.__listenerMap = new Map();
 
     ipcMain.on(rendererToMain, (e, id, action, payload) => {
@@ -30,6 +31,17 @@ export class BrilloMain {
     });
   }
 
+  register(actions) {
+    if (isObject(actions)) {
+      this.__actions = {
+        ...this.__actions,
+        ...actions,
+      };
+    } else {
+      throw Error('Argument "actions" must be an object of named functions (key/value)');
+    }
+  }
+
   talk(action, payload, window) {
     const obs = new Subject();
     const id = uuid();
@@ -44,3 +56,5 @@ export class BrilloMain {
     return obs;
   }
 }
+
+export const brilloMain = new BrilloMain();

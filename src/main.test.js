@@ -1,17 +1,17 @@
-const { BrilloMain } = require('./main');
-const { BrilloRenderer } = require('./renderer');
+const { brilloMain } = require('./main');
+const { brilloRenderer } = require('./renderer');
 const { currentWindow } = require('electron');
 
 const mainResponse = 'mainResponse';
 const rendererResponse = 'rendererResponse';
 
-const brilloMain = new BrilloMain({
+brilloMain.register({
   mainAction: async () => {
     return mainResponse
   }
 });
 
-const brilloRenderer = new BrilloRenderer({
+brilloRenderer.register({
   rendererAction: async () => {
     return rendererResponse;
   },
