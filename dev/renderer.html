@@ -9,7 +9,7 @@ Renderer!
 
 <script>
   const { BrilloRenderer } = require('../build/renderer.js');
-  const brilloRenderer = new BrilloRenderer({
+  brilloRenderer.register({
     rendererAction: async () => {
       return 10 + 10;
     }
