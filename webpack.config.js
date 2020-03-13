@@ -4,8 +4,8 @@ const config = {};
 
 config.mode = 'development';
 config.entry = {
-  main: resolve(__dirname, 'src/main.js'),
-  renderer: resolve(__dirname, 'src/renderer.js'),
+  main: resolve(__dirname, 'main.js'),
+  renderer: resolve(__dirname, 'renderer.js'),
 };
 config.output = {
   path: resolve(__dirname, 'build'),

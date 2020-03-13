@@ -1,8 +1,7 @@
-import { isObject } from './shared';
-
-const { Subject } = require('rxjs');
 const { ipcRenderer } = require('electron');
-const uuid = require('uuid/v4');
+const { Subject } = require('rxjs');
+
+const { isObject } = require('./shared');
 
 const {
   mainToRenderer,
@@ -11,10 +10,11 @@ const {
   rendererToMainResponse
 } = require('./shared');
 
-export class BrilloRenderer {
+class BrilloRenderer {
   constructor() {
     this.__actions = {};
     this.__listenerMap = new Map();
+    this.__index = 0;
 
     ipcRenderer.on(mainToRenderer, (e, id, action, payload) => {
       if (this.__actions[action]) {
@@ -40,12 +40,12 @@ export class BrilloRenderer {
         ...actions,
       };
     } else {
-      throw Error('Argument "actions" must be an object of named functions (key/value)');
+      throw Error('Argument "actions" must be an object of functions');
     }
   }
 
   talk(action, payload) {
-    const id = uuid();
+    const id = this.__index++;
     const obs = new Subject();
     this.__listenerMap.set(id, obs);
     ipcRenderer.send(rendererToMain, id, action, payload);
@@ -53,4 +53,4 @@ export class BrilloRenderer {
   }
 }
 
-export const brilloRenderer = new BrilloRenderer();
+exports.brilloRenderer = new BrilloRenderer();

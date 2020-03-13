@@ -6,19 +6,15 @@
   "repository": "github:geoctrl/brillo",
   "scripts": {
     "start": "concurrently \"yarn webpack\" \"yarn electron\"",
-    "build": "babel ",
     "test": "jest",
     "test-watch": "jest --watch",
     "electron": "electron ./dev/main.js",
     "webpack": "webpack --watch"
   },
-  "dependencies": {
-    "lipid": "^1.0.2",
-    "rxjs": "^6.5.4",
-    "uuid": "^3.3.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
-    "electron": ">=6"
+    "electron": ">=6",
+    "rxjs": ">=6"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -30,6 +26,7 @@
     "concurrently": "^5.0.2",
     "electron": "^7.1.9",
     "jest": "^25.1.0",
+    "rxjs": "^6.5.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }

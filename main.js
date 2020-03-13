@@ -1,6 +1,5 @@
 const { ipcMain, BrowserWindow } = require('electron');
 const { Subject } = require('rxjs');
-const uuid = require('uuid/v4');
 const {
   rendererToMain,
   mainToRenderer,
@@ -9,10 +8,11 @@ const {
   isObject
 } = require('./shared');
 
-export class BrilloMain {
+class BrilloMain {
   constructor() {
     this.__actions = {};
     this.__listenerMap = new Map();
+    this.__index = 0;
 
     ipcMain.on(rendererToMain, (e, id, action, payload) => {
       if (this.__actions[action]) {
@@ -38,13 +38,13 @@ export class BrilloMain {
         ...actions,
       };
     } else {
-      throw Error('Argument "actions" must be an object of named functions (key/value)');
+      throw Error('Argument "actions" must be an object of functions');
     }
   }
 
   talk(action, payload, window) {
     const obs = new Subject();
-    const id = uuid();
+    const id = this.__index++;
     this.__listenerMap.set(id, obs);
     if (window) {
       window.send(mainToRenderer, id, action, payload);
@@ -57,4 +57,4 @@ export class BrilloMain {
   }
 }
 
-export const brilloMain = new BrilloMain();
+exports.brilloMain = new BrilloMain();

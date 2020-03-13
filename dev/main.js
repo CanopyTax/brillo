@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const { BrilloMain } = require('../build/main');
+const { brilloMain } = require('../build/main');
 
 let win;
 
@@ -15,7 +15,7 @@ function createWindow() {
     });
   });
 
-  const brilloMain = new BrilloMain({
+  brilloMain.register({
     mainAction: async () => {
       return 5 + 5;
     },
