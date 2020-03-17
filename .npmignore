@@ -3,3 +3,5 @@
 .gitignore
 jest.config.js
 webpack.config.js
+__mocks__
+dev

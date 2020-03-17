@@ -25,7 +25,7 @@ class BrilloRenderer {
     });
 
     ipcRenderer.on(mainToRendererResponse, (e, id, payload) => {
-      const obs = this.__listenerMap.get(id);
+      const { obs, action } = this.__listenerMap.get(id);
       if (obs) {
         obs.next(payload);
         this.__listenerMap.delete(id);
@@ -45,10 +45,11 @@ class BrilloRenderer {
   }
 
   talk(action, payload) {
-    const id = this.__index++;
+    const id = this.__index;
     const obs = new Subject();
-    this.__listenerMap.set(id, obs);
+    this.__listenerMap.set(id, { obs, action });
     ipcRenderer.send(rendererToMain, id, action, payload);
+    this.__index++
     return obs;
   }
 }
