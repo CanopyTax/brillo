@@ -5,7 +5,9 @@
   "license": "MIT",
   "repository": "github:geoctrl/brillo",
   "scripts": {
-    "build": "rollup src/main.js --file main.js --format",
+    "build": "yarn build-main && yarn build-renderer",
+    "build-main": "rollup src/main.js --file main.js",
+    "build-renderer": "rollup src/renderer.js --file renderer.js",
     "test": "jest",
     "test-watch": "jest --watch"
   },
@@ -15,6 +17,7 @@
     "rxjs": ">=6"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
     "electron": "^7.1.9",
     "jest": "^25.1.0",
     "rollup": "^2.0.6",

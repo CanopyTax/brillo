@@ -1,12 +1,12 @@
-const { ipcMain, BrowserWindow } = require('electron');
-const { Subject } = require('rxjs');
-const {
+import { ipcMain, BrowserWindow } from 'electron';
+import { Subject } from 'rxjs';
+import {
   rendererToMain,
   mainToRenderer,
   mainToRendererResponse,
   rendererToMainResponse,
   isObject
-} = require('./shared');
+} from './shared';
 
 class BrilloMain {
   constructor() {
