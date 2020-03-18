@@ -1,5 +1,5 @@
-const { brilloMain } = require('./main');
-const { brilloRenderer } = require('./renderer');
+const { brilloMain } = require('./brillo-main');
+const { brilloRenderer } = require('./brillo-renderer');
 const { currentWindow } = require('electron');
 
 

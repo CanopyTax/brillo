@@ -1,12 +1,11 @@
 {
   "name": "brillo",
   "version": "0.0.1",
+  "main": "build/brillo.js",
   "license": "MIT",
   "repository": "github:geoctrl/brillo",
   "scripts": {
-    "build": "yarn main && yarn renderer",
-    "main": "rollup src/main.js --config rollup.config.js --file main.js",
-    "renderer": "rollup src/renderer.js --config rollup.config.js --file renderer.js",
+    "build": "rollup --config rollup.config.js",
     "test": "jest",
     "test-watch": "jest --watch"
   },
@@ -16,9 +15,12 @@
     "rxjs": ">=6"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "electron": "^7.1.9",
     "jest": "^25.1.0",
     "rollup": "^2.0.6",
+    "rollup-plugin-terser": "^5.3.0",
     "rxjs": "^6.5.4"
   }
 }

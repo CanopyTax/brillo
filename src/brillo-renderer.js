@@ -16,21 +16,23 @@ class BrilloRenderer {
     this.__listenerMap = new Map();
     this.__index = 0;
 
-    ipcRenderer.on(mainToRenderer, (e, id, action, payload) => {
-      if (this.__actions[action]) {
-        this.__actions[action](payload).then((res) => {
-          ipcRenderer.send(rendererToMainResponse, id, res);
-        });
-      }
-    });
+    if (process && process.type === 'renderer') {
+      ipcRenderer.on(mainToRenderer, (e, id, action, payload) => {
+        if (this.__actions[action]) {
+          this.__actions[action](payload).then((res) => {
+            ipcRenderer.send(rendererToMainResponse, id, res);
+          });
+        }
+      });
 
-    ipcRenderer.on(mainToRendererResponse, (e, id, payload) => {
-      const { obs, action } = this.__listenerMap.get(id);
-      if (obs) {
-        obs.next(payload);
-        this.__listenerMap.delete(id);
-      }
-    });
+      ipcRenderer.on(mainToRendererResponse, (e, id, payload) => {
+        const { obs, action } = this.__listenerMap.get(id);
+        if (obs) {
+          obs.next(payload);
+          this.__listenerMap.delete(id);
+        }
+      });
+    }
   }
 
   register(actions) {
@@ -54,4 +56,4 @@ class BrilloRenderer {
   }
 }
 
-exports.brilloRenderer = new BrilloRenderer();
+export const brilloRenderer = new BrilloRenderer();

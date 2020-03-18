@@ -14,31 +14,33 @@ class BrilloMain {
     this.__listenerMap = new Map();
     this.__index = 0;
 
-    ipcMain.on(rendererToMain, (e, id, action, payload) => {
-      if (this.__actions[action]) {
-        this.__actions[action](payload).then((payloadResponse) => {
-          e.reply(mainToRendererResponse, id, payloadResponse);
-        });
-      }
-    });
-
-    ipcMain.on(rendererToMainResponse, (e, id, payload) => {
-      const listener = this.__listenerMap.get(id);
-      if (listener.obs) {
-        listener.obs.next(payload);
-        const emit = listener.emit + 1;
-        if (emit === listener.winCount) {
-          this.__listenerMap.delete(id);
-        } else {
-          this.__listenerMap.set(id, {
-            obs: listener.obs,
-            action: listener.action,
-            emit,
-            winCount: listener.winCount,
+    if (process && process.type !== 'renderer') {
+      ipcMain.on(rendererToMain, (e, id, action, payload) => {
+        if (this.__actions[action]) {
+          this.__actions[action](payload).then((payloadResponse) => {
+            e.reply(mainToRendererResponse, id, payloadResponse);
           });
         }
-      }
-    });
+      });
+
+      ipcMain.on(rendererToMainResponse, (e, id, payload) => {
+        const listener = this.__listenerMap.get(id);
+        if (listener.obs) {
+          listener.obs.next(payload);
+          const emit = listener.emit + 1;
+          if (emit === listener.winCount) {
+            this.__listenerMap.delete(id);
+          } else {
+            this.__listenerMap.set(id, {
+              obs: listener.obs,
+              action: listener.action,
+              emit,
+              winCount: listener.winCount,
+            });
+          }
+        }
+      });
+    }
   }
 
   register(actions) {
@@ -70,4 +72,4 @@ class BrilloMain {
   }
 }
 
-exports.brilloMain = new BrilloMain();
+export const  brilloMain = new BrilloMain();

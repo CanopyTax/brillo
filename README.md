@@ -5,7 +5,7 @@ Here's a simple example - register some main actions:
 
 ```javascript
 /** MAIN PROCESS **/
-import { brilloMain } from 'brillo/main';
+import { brilloMain } from 'brillo';
 
 brilloMain.register({
   async mainAction() {
@@ -18,7 +18,7 @@ Then call that action from the renderer and wait for a response:
 
 ```javascript
 /** RENDERER PROCESS **/
-import { brilloRenderer } from 'brillo/renderer';
+import { brilloRenderer } from 'brillo';
 
 brilloRenderer.talk('mainAction').subscribe(response => {
   console.log(response); // outputs '10'
@@ -29,18 +29,18 @@ Easy-peasy.
 
 ## Install
 
-Brillo requires `electron` as a peer dependency (version >= 6)
+Brillo requires `electron` as a peer dependency (version >= 6).
 
-```bash
-$ yarn add -D electron
-$ yarn add brillo
+```shell
+# yarn
+yarn add -D electron
+yarn add brillo
 ```
 
-or
-
-```bash
-$ npm install -D electron
-$ npm install -S brillo
+```shell
+# npm
+npm install -D electron
+npm install -S brillo
 ```
 
 ## `brilloMain`
@@ -52,7 +52,7 @@ $ npm install -S brillo
 **Note:** Actions must return a promise.
 
 ```javascript
-import { BrilloMain } from 'brillo/main';
+import { BrilloMain } from 'brillo';
 
 brilloMain.register({
   async action1() {},
@@ -69,7 +69,7 @@ brilloMain.register({
 Returns `rxjs` observable.
 
 ```javascript
-import { brilloMain } from 'brillo/main';
+import { brilloMain } from 'brillo';
 import { BrowserWindow } from 'electron';
 
 const win = new BrowserWindow();
@@ -87,7 +87,7 @@ brilloMain.talk('rendererAction', 'someData', win)
 **Note:** Actions must return a promise
 
 ```javascript
-import { brilloRenderer } from 'brillo/renderer';
+import { brilloRenderer } from 'brillo';
 
 brilloRenderer.register({
   async action1() {},
@@ -103,7 +103,7 @@ brilloRenderer.register({
 Returns `rxjs` observable.
 
 ```javascript
-import { brilloRenderer } from 'brillo/renderer';
+import { brilloRenderer } from 'brillo';
 
 brilloRenderer.talk('mainAction', 'someData')
   .subscribe(response => console.log(response));
@@ -129,7 +129,7 @@ Now let's call that resource from the renderer:
 ```javascript
 /** RENDERER PROCESS **/
 import React, { useEffect, useState } from 'react';
-import { brilloRenderer } from 'brillo/renderer';
+import { brilloRenderer } from 'brillo';
 
 export function ShowUser() {
   const [user, setUser] = useState(null);
@@ -167,7 +167,7 @@ const actions = {
 
 ```javascript
 // main.js
-import { brilloMain } from 'brillo/main';
+import { brilloMain } from 'brillo';
 import { actions } from './shared';
 
 brilloMain.register({
