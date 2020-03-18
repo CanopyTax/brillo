@@ -1,14 +1,14 @@
-const { ipcRenderer } = require('electron');
-const { Subject } = require('rxjs');
+import { ipcRenderer } from 'electron';
+import { Subject } from 'rxjs';
 
-const { isObject } = require('./shared');
+import { isObject } from './shared';
 
-const {
+import {
   mainToRenderer,
   mainToRendererResponse,
   rendererToMain,
   rendererToMainResponse
-} = require('./shared');
+} from './shared';
 
 class BrilloRenderer {
   constructor() {
