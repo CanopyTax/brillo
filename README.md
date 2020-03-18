@@ -52,7 +52,7 @@ npm install -S brillo
 **Note:** Actions must return a promise.
 
 ```javascript
-import { BrilloMain } from 'brillo';
+import { brilloMain } from 'brillo';
 
 brilloMain.register({
   async action1() {},

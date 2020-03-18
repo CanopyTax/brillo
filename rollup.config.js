@@ -1,6 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: 'src/brillo.js',
@@ -9,9 +8,5 @@ export default {
     format: 'cjs'
   },
   external: ['electron'],
-  plugins: [resolve(), commonjs(), terser({
-    output: {
-      comments: false,
-    },
-  })],
+  plugins: [resolve(), commonjs()],
 };
