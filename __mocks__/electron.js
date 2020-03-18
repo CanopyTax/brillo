@@ -3,14 +3,12 @@ const mainListeners = [];
 const rendererListeners = [];
 
 const eventFromRenderer = {
-  sender: {
-    send: (returnChannel, ...returnArgs) => {
-      rendererListeners.forEach((l) => {
-        if (l.channel === returnChannel) {
-          l.callback({}, ...returnArgs);
-        }
-      })
-    },
+  reply: (returnChannel, ...returnArgs) => {
+    rendererListeners.forEach((l) => {
+      if (l.channel === returnChannel) {
+        l.callback({}, ...returnArgs);
+      }
+    })
   },
 }
 
