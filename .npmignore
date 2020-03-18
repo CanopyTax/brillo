@@ -1,4 +1,2 @@
-.babelrc
-.browserslistrc
-.gitignore
 __mocks__
+src
