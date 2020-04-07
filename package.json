@@ -12,7 +12,6 @@
   "dependencies": {},
   "peerDependencies": {
     "electron": ">=6",
-    "rxjs": ">=6"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.5",
@@ -21,6 +20,5 @@
     "electron": "^7.1.9",
     "jest": "^25.1.0",
     "rollup": "^2.0.6",
-    "rxjs": "^6.5.4"
   }
 }
