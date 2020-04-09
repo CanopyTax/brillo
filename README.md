@@ -1,5 +1,5 @@
 # Brillo
-### Simple IPC communication within Electron using promises
+### Simple electron IPC using promises
 
 Here's a simple example - register some main actions:
 
