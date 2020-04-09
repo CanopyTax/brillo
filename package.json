@@ -1,6 +1,6 @@
 {
   "name": "brillo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "build/brillo.js",
   "license": "MIT",
   "repository": "github:geoctrl/brillo",
@@ -12,14 +12,13 @@
   "dependencies": {},
   "peerDependencies": {
     "electron": ">=6",
-    "rxjs": ">=6"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.9.5",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "electron": "^7.1.9",
     "jest": "^25.1.0",
     "rollup": "^2.0.6",
-    "rxjs": "^6.5.4"
   }
 }
