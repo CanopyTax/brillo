@@ -1,5 +1,5 @@
 # Brillo
-### Simple IPC communication within Electron using rxjs
+### Simple IPC communication within Electron using promises
 
 Here's a simple example - register some main actions:
 
@@ -20,7 +20,7 @@ Then call that action from the renderer and wait for a response:
 /** RENDERER PROCESS **/
 import { brilloRenderer } from 'brillo';
 
-brilloRenderer.talk('mainAction').subscribe(response => {
+brilloRenderer.talk('mainAction').then(response => {
   console.log(response); // outputs '10'
 });
 ```
@@ -66,7 +66,7 @@ brilloMain.register({
 - `payload` Any - data subject to same limitations as electron's IPC modules
 - `window` BrowserWindow instance (optional) - send message to one window only (defaults to all open windows)
 
-Returns `rxjs` observable.
+Returns a promise.
 
 ```javascript
 import { brilloMain } from 'brillo';
@@ -75,7 +75,7 @@ import { BrowserWindow } from 'electron';
 const win = new BrowserWindow();
 
 brilloMain.talk('rendererAction', 'someData', win)
-  .subscribe(response => console.log(response));
+  .then(response => console.log(response));
 ```
 
 ## `brilloRenderer`
@@ -100,13 +100,13 @@ brilloRenderer.register({
 - `action` String - name of `brilloMain` action
 - `payload` Any - data subject to same limitations as electron's IPC modules
 
-Returns `rxjs` observable.
+Returns a promise.
 
 ```javascript
 import { brilloRenderer } from 'brillo';
 
 brilloRenderer.talk('mainAction', 'someData')
-  .subscribe(response => console.log(response));
+  .then(response => console.log(response));
 ```
 
 ## A somewhat practical example
@@ -135,7 +135,7 @@ export function ShowUser() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     brilloRenderer.talk('getUser', { id: 15 })
-      .subscribe(setUser);
+      .then(setUser);
   }, []);
 
   return user ? (
