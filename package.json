@@ -5,6 +5,7 @@
   "license": "MIT",
   "repository": "github:geoctrl/brillo",
   "scripts": {
+    "prepublish": "yarn build",
     "build": "rollup --config rollup.config.js",
     "test": "jest",
     "test-watch": "jest --watch"
