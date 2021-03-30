@@ -1,7 +1,10 @@
-const { brilloMain } = require('./brillo-main');
-process.type = 'renderer';
-const { brilloRenderer } = require('./brillo-renderer');
+const { BrilloMain } = require('./brillo-main');
+const { BrilloRenderer } = require('./brillo-renderer');
 const { currentWindow } = require('electron');
+
+const brilloMain = new BrilloMain();
+process.type = 'renderer'; // fake out renderer process
+const brilloRenderer = new BrilloRenderer();
 
 
 brilloMain.register({
@@ -27,35 +30,35 @@ brilloRenderer.register({
 
 describe('Brillo', () => {
   test('sending message to main process should return a response', (done) => {
-    brilloRenderer.talk('mainAction').then(res => {
+    brilloRenderer.send('mainAction').then(res => {
       expect(res).toEqual('mainResponse');
       done()
     });
   });
 
   test('sending message to renderer should return a response', (done) => {
-    brilloMain.talk('rendererAction', null, currentWindow).then(res => {
+    brilloMain.send('rendererAction', null, currentWindow).then(res => {
       expect(res).toEqual('rendererResponse');
       done();
     })
   });
 
   test('sending another message to main should work too', (done) => {
-    brilloRenderer.talk('anotherAction').then(res => {
+    brilloRenderer.send('anotherAction').then(res => {
       expect(res).toEqual(10);
       done();
     });
   });
 
   test('should send message to all windows', (done) => {
-    brilloMain.talk('anotherRendererAction').then(res => {
+    brilloMain.send('anotherRendererAction').then(res => {
       expect(res).toEqual(40);
       done();
     });
   });
 
   test('should handle rejected promises', (done) => {
-    brilloRenderer.talk('rejectedAction').then(() => {}, err => {
+    brilloRenderer.send('rejectedAction').then(() => {}, err => {
       expect(err.message).toEqual('things are changing!');
       done();
     });

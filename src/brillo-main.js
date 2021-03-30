@@ -1,4 +1,5 @@
 import { ipcMain, BrowserWindow } from 'electron';
+import uniqid from 'uniqid';
 import {
   rendererToMain,
   mainToRenderer,
@@ -7,12 +8,11 @@ import {
   isObject
 } from './shared';
 
-class BrilloMain {
+export class BrilloMain {
   constructor() {
     this.__actions = {};
     this.__listenerMap = new Map();
     this.__eventMap = new Map();
-    this.__index = 0;
 
     if (process && process.type !== 'renderer') {
       ipcMain.on(rendererToMain, (e, id, action, payload) => {
@@ -34,10 +34,8 @@ class BrilloMain {
             this.__listenerMap.delete(id);
           } else {
             this.__listenerMap.set(id, {
-              promise: listener.promise,
-              action: listener.action,
-              emit,
-              winCount: listener.winCount,
+              ...listener,
+              emit: listener.emit + 1,
             });
           }
         }
@@ -56,8 +54,8 @@ class BrilloMain {
     }
   }
 
-  talk(action, payload, window) {
-    const id = this.__index;
+  send(action, payload, window) {
+    const id = uniqid();
     let resolve, reject;
     const promise = new Promise((_resolve, _reject) => {
       resolve = _resolve;
@@ -83,9 +81,6 @@ class BrilloMain {
         win.send(mainToRenderer, id, action, payload);
       });
     }
-    this.__index++;
     return promise;
   }
 }
-
-export const  brilloMain = new BrilloMain();
