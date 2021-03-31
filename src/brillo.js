@@ -1,2 +1,2 @@
-export { brilloMain} from './brillo-main';
-export { brilloRenderer } from './brillo-renderer';
+export { BrilloMain } from './brillo-main';
+export { BrilloRenderer } from './brillo-renderer';

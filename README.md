@@ -1,12 +1,41 @@
 # Brillo
-### Simple electron IPC using promises
 
-Here's a simple example - register some main actions:
+[![npm version](https://badge.fury.io/js/brillo.svg)](https://badge.fury.io/js/brillo)
+
+Electron IPC using promises.
+
+## Install
+
+Brillo requires `electron` as a peer dependency (version >= 10).
+
+```shell
+# yarn
+yarn add -D electron
+yarn add brillo
+
+# npm
+npm install -D electron
+npm install brillo
+```
+
+## Usage
+
+First, you need to instantiate your brillo instances:
 
 ```javascript
-/** MAIN PROCESS **/
-import { brilloMain } from 'brillo';
+// ./main
+import { BrilloMain  } from 'brillo';
+export const brilloMain = new BrilloMain();
 
+// ./renderer
+import { BrilloRenderer  } from 'brillo';
+export const brilloRenderer = new BrilloRenderer();
+```
+
+Second, register your actions:
+
+```javascript
+// ./main
 brilloMain.register({
   async mainAction() {
     return 5 + 5;
@@ -17,39 +46,19 @@ brilloMain.register({
 Then call that action from the renderer and wait for a response:
 
 ```javascript
-/** RENDERER PROCESS **/
-import { brilloRenderer } from 'brillo';
-
-brilloRenderer.talk('mainAction').then(response => {
+// ./renderer
+brilloRenderer.send('mainAction').then(response => {
   console.log(response); // outputs '10'
 });
 ```
 
-Easy-peasy.
-
-## Install
-
-Brillo requires `electron` as a peer dependency (version >= 6).
-
-```shell
-# yarn
-yarn add -D electron
-yarn add brillo
-```
-
-```shell
-# npm
-npm install -D electron
-npm install -S brillo
-```
-
-## `brilloMain`
+## `new BrilloMain`
 
 ### `brilloMain.register(actions)`
 
-  - `actions` Object - set of methods you can 'talk' to from a renderer
+  - `actions` Object - set of methods you can 'send' to from a renderer
   
-**Note:** Actions must return a promise.
+**Note:** Each action must return a promise.
 
 ```javascript
 import { brilloMain } from 'brillo';
@@ -60,11 +69,11 @@ brilloMain.register({
 });
 ```
 
-### `brilloMain.talk(action, payload, window)`
+### `brilloMain.send(action, payload[, window])`
 
 - `action` String - name of `brilloRenderer` action
 - `payload` Any - data subject to same limitations as electron's IPC modules
-- `window` BrowserWindow instance (optional) - send message to one window only (defaults to all open windows)
+- `window` BrowserWindow instance (optional) - send message to one window only (defaults to all windows)
 
 Returns a promise.
 
@@ -74,15 +83,15 @@ import { BrowserWindow } from 'electron';
 
 const win = new BrowserWindow();
 
-brilloMain.talk('rendererAction', 'someData', win)
+brilloMain.send('rendererAction', 'someData', win)
   .then(response => console.log(response));
 ```
 
-## `brilloRenderer`
+## `new BrilloRenderer`
 
 ### `brilloRenderer.register(actions)`
 
-- `actions` Object - set of methods you can 'talk' to from the main process
+- `actions` Object - set of methods you can 'send' to from the main process
 
 **Note:** Actions must return a promise
 
@@ -95,7 +104,7 @@ brilloRenderer.register({
 });
 ```
 
-### `brilloRenderer.talk(action, payload)`
+### `brilloRenderer.send(action, payload)`
 
 - `action` String - name of `brilloMain` action
 - `payload` Any - data subject to same limitations as electron's IPC modules
@@ -105,17 +114,18 @@ Returns a promise.
 ```javascript
 import { brilloRenderer } from 'brillo';
 
-brilloRenderer.talk('mainAction', 'someData')
+brilloRenderer.send('mainAction', 'someData')
   .then(response => console.log(response));
 ```
 
-## A somewhat practical example
+## React Example
 
-From the main process, set up a resource for the renderer to 'talk' to:
+From the main process, set up a resource for the renderer to 'send' to:
 
 ```javascript
 /** MAIN PROCESS **/
-import { brilloMain } from 'electron';
+import { BrilloMain } from 'electron';
+const brilloMain = new BrilloMain();
 
 brilloMain.register({
   async getUser({ id }) {
@@ -129,12 +139,13 @@ Now let's call that resource from the renderer:
 ```javascript
 /** RENDERER PROCESS **/
 import React, { useEffect, useState } from 'react';
-import { brilloRenderer } from 'brillo';
+import { BrilloRenderer } from 'brillo';
+const brilloRenderer = new BrilloRenderer();
 
 export function ShowUser() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    brilloRenderer.talk('getUser', { id: 15 })
+    brilloRenderer.send('getUser', { id: 15 })
       .then(setUser);
   }, []);
 
@@ -154,8 +165,9 @@ export function ShowUser() {
 
 #### Make some constant helpers
 
-Since IDE's can't 'intellisense' strings, remembering and typing action names can be error-prone. Instead, create a
-list of helpers in a shared file that you can access from both your main and renderer processes: 
+Since IDE's can't "intellisense" string primitives, remembering and typing action names can be
+error-prone. Instead, create a list of helpers in a shared file that you can access from both
+your main and renderer processes: 
 
 ```javascript
 // shared.js
@@ -166,8 +178,7 @@ const actions = {
 ```
 
 ```javascript
-// main.js
-import { brilloMain } from 'brillo';
+// ./main
 import { actions } from './shared';
 
 brilloMain.register({
