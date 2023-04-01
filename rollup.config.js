@@ -3,10 +3,21 @@ import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: 'src/brillo.js',
-  output: {
-    file: 'build/brillo.js',
-    format: 'cjs'
-  },
+  output: [
+    {
+      name: 'Brillo',
+      file: 'build/brillo.umd.js',
+      format: 'umd'
+    },
+    {
+      file: 'build/brillo.cjs.js',
+      format: 'cjs'
+    },
+    {
+      file: 'build/brillo.esm.js',
+      format: 'esm'
+    }
+  ],
   external: ['electron'],
   plugins: [resolve(), commonjs()],
 };

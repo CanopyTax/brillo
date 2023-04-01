@@ -1,8 +1,10 @@
 {
   "name": "brillo",
-  "version": "1.0.0",
-  "main": "build/brillo.js",
+  "version": "2.0.0-beta.0",
+  "main": "build/brillo.cjs.js",
+  "module": "build/brillo.esm.js",
   "license": "MIT",
+  "type": "module",
   "repository": "github:geoctrl/brillo",
   "scripts": {
     "prepublish": "yarn build",
@@ -12,18 +14,17 @@
     "test-watch": "jest --watch"
   },
   "dependencies": {
-    "uniqid": "^5.3.0",
-    "uuid": "^8.3.2"
+    "ulid": "^2.3.0"
   },
   "peerDependencies": {
-    "electron": ">=10"
+    "electron": ">=23"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.13.12",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "electron": "^12.0.2",
-    "jest": "^26.6.3",
-    "rollup": "^2.42.4"
+    "@babel/preset-env": "^7.21.4",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "electron": "^23.2.1",
+    "jest": "^29.5.0",
+    "rollup": "^3.20.2"
   }
 }

@@ -1,5 +1,4 @@
-import { ipcMain, BrowserWindow } from 'electron';
-import uniqid from 'uniqid';
+import { ulid } from 'ulid';
 import {
   rendererToMain,
   mainToRenderer,
@@ -15,6 +14,7 @@ export class BrilloMain {
     this.__eventMap = new Map();
 
     if (process && process.type !== 'renderer') {
+      const { ipcMain } = require('electron');
       ipcMain.on(rendererToMain, (e, id, action, payload) => {
         if (this.__actions[action]) {
           this.__actions[action](payload).then((res) => {
@@ -55,7 +55,7 @@ export class BrilloMain {
   }
 
   send(action, payload, window) {
-    const id = uniqid();
+    const id = ulid();
     let resolve, reject;
     const promise = new Promise((_resolve, _reject) => {
       resolve = _resolve;
@@ -70,6 +70,7 @@ export class BrilloMain {
       });
       window.send(mainToRenderer, id, action, payload);
     } else {
+      const { BrowserWindow } = require('electron');
       const windows = BrowserWindow.getAllWindows();
       this.__listenerMap.set(id, {
         promise: { resolve, reject },

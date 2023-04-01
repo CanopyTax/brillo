@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import uniqid from 'uniqid';
+import { ulid } from 'ulid';
 
 import { isObject } from './shared';
 
@@ -55,7 +55,7 @@ export class BrilloRenderer {
   }
 
   send(action, payload) {
-    const id = uniqid();
+    const id = ulid();
     let resolve, reject;
     const promise = new Promise((_resolve, _reject) => {
       resolve = _resolve;
